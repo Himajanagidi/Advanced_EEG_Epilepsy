@@ -1,4 +1,4 @@
-# Advanced-_EEG_Epilepsy
+# Advanced_EEG_Epilepsy
 =======
 # 🧠 EEG Epilepsy Detection System  
 ### Hybrid Quantum-Classical AI for Pediatric Seizure Recognition  
@@ -9,8 +9,6 @@
 
 A research-driven project for detecting epileptic seizures in pediatric EEG signals using **hybrid quantum-classical machine learning approaches**.  
 This system combines **Convolutional Neural Networks (CNN)** with **Quantum Support Vector Machines (QSVM)** to achieve superior accuracy in seizure detection.  
-
----
 
 ---
 
