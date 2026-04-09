@@ -17,32 +17,32 @@ This system combines **Convolutional Neural Networks (CNN)** with **Quantum Supp
 ## 📸 Application Screenshots
 
 ### 🏠 Home Page
-The landing page showcasing the system overview and navigation.
-![Home](outputs/home.png)
+The landing page showcases the system overview and navigation.
+![Home](Outputs/home.png)
 
 ---
 
 ### 🤖 Advanced AI Technology
 Highlights hybrid quantum-classical ML features and capabilities.
-![Features](outputs/features.png)
+![Features](Outputs/features.png)
 
 ---
 
 ### ⚙️ How It Works
 Step-by-step pipeline of EEG processing and prediction.
-![Process](outputs/process.png)
+![Process](Outputs/process.png)
 
 ---
 
 ### 📤 Upload EEG Data
 User interface for uploading EEG CSV files.
-![Upload](outputs/upload.png)
+![Upload](Outputs/upload.png)
 
 ---
 
 ### 📊 Sample Dataset Section
 Provides sample datasets for testing the system.
-![Sample](outputs/sample.png)
+![Sample](Outputs/sample.png)
 
 ---
 
