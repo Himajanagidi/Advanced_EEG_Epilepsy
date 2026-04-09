@@ -1,0 +1,20 @@
+ {
+  "dataset_info": {
+    "n_samples": 11500,
+    "n_features": 178,
+    "n_classes": 5,
+    "class_distribution": {
+      "1": 2300,
+      "2": 2300,
+      "3": 2300,
+      "4": 2300,
+      "5": 2300
+    }
+  },
+  "model_performance": {
+    "Classical SVM (Original Features)": 0.5470433504389917,
+    "Classical SVM (CNN Features)": 0.7834780080897011,
+    "Classical SVM (Combined Features)": 0.7866951121330866
+  },
+  "best_model": "Classical SVM (Combined Features)"
+} 

@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}EEG Epilepsy Detection - AI-Powered Healthcare{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title slide-in-left">Advanced EEG Analysis</h1>
+                <p class="hero-subtitle slide-in-left">
+                    Revolutionizing pediatric epilepsy detection with cutting-edge AI technology. 
+                    Our hybrid quantum-classical machine learning system provides accurate, 
+                    early diagnosis for effective treatment planning.
+                </p>
+                <div class="hero-buttons slide-in-left">
+                    <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-upload me-2"></i>Start Analysis
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 slide-in-right">
+                <div class="hero-visual">
+                    <div class="brain-visualization">
+                        <i class="fas fa-brain" style="font-size: 15rem; color: var(--accent-color); opacity: 0.7;"></i>
+                        <div class="pulse-animation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 mb-4">Advanced AI Technology</h2>
+                <p class="lead text-muted">Cutting-edge features for accurate epilepsy detection</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="custom-card h-100 p-4 text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-atom" style="font-size: 3rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h4>Quantum-Enhanced ML</h4>
+                    <p class="text-muted">
+                        Hybrid quantum-classical algorithms for superior pattern recognition 
+                        in complex EEG data, leveraging quantum amplitude embedding.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="custom-card h-100 p-4 text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-wave-square" style="font-size: 3rem; color: var(--secondary-accent);"></i>
+                    </div>
+                    <h4>Signal Processing</h4>
+                    <p class="text-muted">
+                        Advanced topographic mapping and frequency domain analysis 
+                        extracting spatial brain activity patterns across multiple bands.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="custom-card h-100 p-4 text-center">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--warning-color);"></i>
+                    </div>
+                    <h4>Real-time Analysis</h4>
+                    <p class="text-muted">
+                        Fast, accurate predictions with comprehensive visualization 
+                        tools for clinical decision-making and treatment planning.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5" style="background: var(--card-bg);">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--accent-color);">95%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--success-color);">0.8s</div>
+                    <div class="stat-label">Processing Time</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--secondary-accent);">178</div>
+                    <div class="stat-label">EEG Channels</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--warning-color);">5</div>
+                    <div class="stat-label">Frequency Bands</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 mb-4">How It Works</h2>
+                <p class="lead text-muted">Simple process for accurate epilepsy detection</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="process-step">
+                    <div class="step-icon mb-3">
+                        <div class="step-number">1</div>
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h5>Upload EEG Data</h5>
+                    <p class="text-muted">Upload your CSV file containing EEG signal data</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="process-step">
+                    <div class="step-icon mb-3">
+                        <div class="step-number">2</div>
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h5>AI Processing</h5>
+                    <p class="text-muted">Advanced algorithms analyze patterns and extract features</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="process-step">
+                    <div class="step-icon mb-3">
+                        <div class="step-number">3</div>
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h5>Quantum Analysis</h5>
+                    <p class="text-muted">Quantum-enhanced classification for superior accuracy</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 text-center">
+                <div class="process-step">
+                    <div class="step-icon mb-3">
+                        <div class="step-number">4</div>
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h5>Get Results</h5>
+                    <p class="text-muted">Comprehensive analysis with visual insights</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(45deg, var(--accent-color), var(--secondary-accent));">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="display-4 mb-4 text-white">Ready to Get Started?</h2>
+                <p class="lead text-white mb-4">
+                    Experience the future of epilepsy detection with our advanced AI system
+                </p>
+                <a href="{{ url_for('prediction') }}" class="btn btn-light btn-lg">
+                    <i class="fas fa-rocket me-2"></i>Start Analysis Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<style>
+.brain-visualization {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pulse-animation {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(46, 134, 171, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 50px rgba(46, 134, 171, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(46, 134, 171, 0);
+    }
+}
+
+.process-step {
+    position: relative;
+    padding: 2rem 1rem;
+}
+
+.step-icon {
+    position: relative;
+    display: inline-block;
+}
+
+.step-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: var(--accent-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.step-icon i {
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+</style>
+{% endblock %}

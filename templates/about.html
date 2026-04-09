@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}About - EEG Epilepsy Detection System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-info-circle me-3" style="color: var(--accent-color);"></i>
+                About Our System
+            </h1>
+            <p class="lead text-muted">
+                Advanced AI-powered pediatric EEG analysis for early epilepsy detection
+            </p>
+        </div>
+    </div>
+
+    <!-- Project Overview -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="custom-card p-5">
+                <h2 class="mb-4">
+                    <i class="fas fa-brain me-3" style="color: var(--secondary-accent);"></i>
+                    Project Overview
+                </h2>
+                <p class="text-muted mb-4">
+                    Epilepsy is a major neurological disorder in children, where accurate and early diagnosis 
+                    is essential for effective treatment. Our project proposes a hybrid quantum–classical 
+                    method for classifying pediatric EEG signals to detect epilepsy disorders.
+                </p>
+                <p class="text-muted mb-4">
+                    Raw EEG recordings are first preprocessed and divided into standard frequency bands, and 
+                    then the band powers are projected onto scalp topographic maps to generate image-based 
+                    features that capture spatial activity patterns across the brain.
+                </p>
+                <p class="text-muted">
+                    A lightweight convolutional neural network (CNN) is employed to learn visual features 
+                    from these maps, and the resulting embeddings are further reduced and classified using 
+                    a Quantum Support Vector Machine (QSVM) with amplitude embedding.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Approach -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h2 class="mb-4">
+                    <i class="fas fa-cogs me-3" style="color: var(--warning-color);"></i>
+                    Technical Approach
+                </h2>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="tech-item p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-wave-square me-2"></i>Signal Processing</h5>
+                            <ul class="text-muted mb-0">
+                                <li>Frequency band decomposition (Delta, Theta, Alpha, Beta, Gamma)</li>
+                                <li>Topographic mapping of scalp activity</li>
+                                <li>Spatial pattern extraction</li>
+                                <li>Noise reduction and artifact removal</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="tech-item p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-network-wired me-2"></i>Deep Learning</h5>
+                            <ul class="text-muted mb-0">
+                                <li>Lightweight CNN architecture</li>
+                                <li>Visual feature extraction from topographic maps</li>
+                                <li>Dimensionality reduction techniques</li>
+                                <li>Transfer learning capabilities</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="tech-item p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-atom me-2"></i>Quantum Computing</h5>
+                            <ul class="text-muted mb-0">
+                                <li>Quantum Support Vector Machine (QSVM)</li>
+                                <li>Amplitude embedding techniques</li>
+                                <li>Quantum kernel methods</li>
+                                <li>Enhanced pattern recognition</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="tech-item p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-chart-line me-2"></i>Performance Metrics</h5>
+                            <ul class="text-muted mb-0">
+                                <li>Sensitivity and specificity analysis</li>
+                                <li>F1-score optimization</li>
+                                <li>False alarms per hour calculation</li>
+                                <li>Cross-validation techniques</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Features -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h2 class="mb-4">
+                    <i class="fas fa-star me-3" style="color: var(--success-color);"></i>
+                    Key Features
+                </h2>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card text-center p-4" style="background: var(--hover-bg); border-radius: 15px;">
+                            <i class="fas fa-tachometer-alt mb-3" style="font-size: 3rem; color: var(--accent-color);"></i>
+                            <h5>High Accuracy</h5>
+                            <p class="text-muted">95%+ accuracy in seizure detection with quantum-enhanced algorithms</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="feature-card text-center p-4" style="background: var(--hover-bg); border-radius: 15px;">
+                            <i class="fas fa-clock mb-3" style="font-size: 3rem; color: var(--secondary-accent);"></i>
+                            <h5>Real-time Analysis</h5>
+                            <p class="text-muted">Fast processing for immediate clinical decision support</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="feature-card text-center p-4" style="background: var(--hover-bg); border-radius: 15px;">
+                            <i class="fas fa-child mb-3" style="font-size: 3rem; color: var(--warning-color);"></i>
+                            <h5>Pediatric Focus</h5>
+                            <p class="text-muted">Specialized for pediatric EEG patterns and characteristics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinical Impact -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="custom-card p-5" style="background: linear-gradient(135deg, rgba(46, 134, 171, 0.1), rgba(162, 59, 114, 0.1));">
+                <h2 class="mb-4 text-center">
+                    <i class="fas fa-heartbeat me-3" style="color: var(--secondary-accent);"></i>
+                    Clinical Impact
+                </h2>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h3 style="color: var(--accent-color);">Early Detection</h3>
+                        <p class="text-muted">Enables early intervention and better treatment outcomes</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3 style="color: var(--secondary-accent);">Reduced Costs</h3>
+                        <p class="text-muted">Fewer channels required, making it more accessible</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3 style="color: var(--warning-color);">Improved Care</h3>
+                        <p class="text-muted">Enhanced diagnostic accuracy for pediatric patients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h2 class="mb-4">
+                    <i class="fas fa-code me-3" style="color: var(--accent-color);"></i>
+                    Technology Stack
+                </h2>
+                
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="tech-badge p-3 text-center" style="background: var(--hover-bg); border-radius: 10px;">
+                            <i class="fab fa-python mb-2" style="font-size: 2rem; color: #3776ab;"></i>
+                            <h6>Python</h6>
+                            <small class="text-muted">Core Language</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-badge p-3 text-center" style="background: var(--hover-bg); border-radius: 10px;">
+                            <i class="fas fa-flask mb-2" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            <h6>Flask</h6>
+                            <small class="text-muted">Web Framework</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-badge p-3 text-center" style="background: var(--hover-bg); border-radius: 10px;">
+                            <i class="fas fa-robot mb-2" style="font-size: 2rem; color: #ff6f00;"></i>
+                            <h6>Scikit-learn</h6>
+                            <small class="text-muted">Machine Learning</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="tech-badge p-3 text-center" style="background: var(--hover-bg); border-radius: 10px;">
+                            <i class="fas fa-chart-line mb-2" style="font-size: 2rem; color: var(--success-color);"></i>
+                            <h6>Plotly</h6>
+                            <small class="text-muted">Visualization</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Research Keywords -->
+    <div class="row">
+        <div class="col-12">
+            <div class="custom-card p-4 text-center">
+                <h3 class="mb-4">
+                    <i class="fas fa-tags me-3" style="color: var(--warning-color);"></i>
+                    Research Keywords
+                </h3>
+                <div class="keywords-container">
+                    <span class="badge bg-primary me-2 mb-2 p-2">Pediatric Epilepsy</span>
+                    <span class="badge bg-secondary me-2 mb-2 p-2">EEG Analysis</span>
+                    <span class="badge bg-success me-2 mb-2 p-2">Topographic Maps</span>
+                    <span class="badge bg-danger me-2 mb-2 p-2">Convolutional Neural Network</span>
+                    <span class="badge bg-warning me-2 mb-2 p-2">Quantum Support Vector Machine</span>
+                    <span class="badge bg-info me-2 mb-2 p-2">Quantum Machine Learning</span>
+                    <span class="badge bg-dark me-2 mb-2 p-2">Signal Processing</span>
+                    <span class="badge bg-primary me-2 mb-2 p-2">Medical AI</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

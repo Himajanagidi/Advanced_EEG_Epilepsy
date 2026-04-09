@@ -1,0 +1,532 @@
+{% extends "base.html" %}
+
+{% block title %}EEG Data Visualization - Interactive Charts{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-chart-area me-3" style="color: var(--accent-color);"></i>
+                EEG Data Visualization
+            </h1>
+            <p class="lead text-muted">
+                Interactive exploration of EEG patterns and epilepsy detection insights
+            </p>
+        </div>
+    </div>
+
+    <!-- Control Panel -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="custom-card p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <label class="form-label">Select Visualization:</label>
+                        <select class="form-select" id="vizSelect">
+                            <option value="eeg-signals">EEG Signal Patterns</option>
+                            <option value="frequency-bands">Frequency Band Analysis</option>
+                            <option value="spectral-analysis">Spectral Power Distribution</option>
+                            <option value="time-frequency">Time-Frequency Analysis</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Signal Type:</label>
+                        <select class="form-select" id="signalType">
+                            <option value="both">Both (Seizure & Normal)</option>
+                            <option value="seizure">Seizure Only</option>
+                            <option value="normal">Normal Only</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Actions:</label><br>
+                        <button class="btn btn-primary btn-sm me-2" onclick="updateVisualization()">
+                            <i class="fas fa-sync me-1"></i>Update
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="generateSampleData()">
+                            <i class="fas fa-random me-1"></i>New Sample
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Visualization Area -->
+    <div class="row g-4">
+        <!-- Primary Chart -->
+        <div class="col-lg-8">
+            <div class="chart-container">
+                <h4 class="mb-3" id="mainChartTitle">
+                    <i class="fas fa-wave-square me-2"></i>
+                    EEG Signal Patterns
+                </h4>
+                <div id="mainChart" style="height: 500px;"></div>
+            </div>
+        </div>
+
+        <!-- Secondary Chart -->
+        <div class="col-lg-4">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    Signal Statistics
+                </h4>
+                <div id="statsChart" style="height: 250px;"></div>
+            </div>
+            
+            <div class="chart-container mt-4">
+                <h4 class="mb-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Analysis Info
+                </h4>
+                <div id="analysisInfo" class="p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                    <div class="info-item mb-2">
+                        <strong>Sampling Rate:</strong> <span id="samplingRate">256 Hz</span>
+                    </div>
+                    <div class="info-item mb-2">
+                        <strong>Duration:</strong> <span id="duration">1.0 seconds</span>
+                    </div>
+                    <div class="info-item mb-2">
+                        <strong>Channels:</strong> <span id="channels">178</span>
+                    </div>
+                    <div class="info-item">
+                        <strong>Classification:</strong> <span id="classification">Mixed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Frequency Analysis -->
+        <div class="col-12">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-signal me-2"></i>
+                    Frequency Band Power Comparison
+                </h4>
+                <div id="frequencyChart" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <!-- Detailed Metrics -->
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Signal Amplitude Distribution
+                </h4>
+                <div id="amplitudeChart" style="height: 350px;"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Spectral Power Density
+                </h4>
+                <div id="spectralChart" style="height: 350px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Insights -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-lightbulb me-3" style="color: var(--warning-color);"></i>
+                    EEG Pattern Insights
+                </h3>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="insight-card p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-brain me-2" style="color: var(--accent-color);"></i>Seizure Patterns</h5>
+                            <ul class="text-muted mb-0 small">
+                                <li>High-amplitude spikes and sharp waves</li>
+                                <li>Increased gamma band activity (30-100 Hz)</li>
+                                <li>Rhythmic discharge patterns</li>
+                                <li>Sudden amplitude changes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="insight-card p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-heartbeat me-2" style="color: var(--success-color);"></i>Normal Patterns</h5>
+                            <ul class="text-muted mb-0 small">
+                                <li>Balanced alpha activity (8-13 Hz)</li>
+                                <li>Regular background rhythms</li>
+                                <li>Stable amplitude variations</li>
+                                <li>No abnormal discharges</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="insight-card p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h5><i class="fas fa-search me-2" style="color: var(--secondary-accent);"></i>Key Indicators</h5>
+                            <ul class="text-muted mb-0 small">
+                                <li>Frequency band power ratios</li>
+                                <li>Signal entropy and complexity</li>
+                                <li>Spatial correlation patterns</li>
+                                <li>Temporal coherence measures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="d-none position-fixed top-0 start-0 w-100 h-100" 
+     style="background: rgba(0,0,0,0.7); z-index: 9999;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-center">
+            <div class="loading mb-3"></div>
+            <h5 class="text-white">Generating Visualization...</h5>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let currentData = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize with sample data
+    generateSampleData();
+    updateVisualization();
+});
+
+async function generateSampleData() {
+    showLoading();
+    
+    try {
+        const response = await fetch('/api/sample_data');
+        currentData = await response.json();
+        updateVisualization();
+    } catch (error) {
+        console.error('Error generating sample data:', error);
+        EEGApp.showNotification('Error generating sample data', 'danger');
+    }
+    
+    hideLoading();
+}
+
+function updateVisualization() {
+    const vizType = document.getElementById('vizSelect').value;
+    const signalType = document.getElementById('signalType').value;
+    
+    switch(vizType) {
+        case 'eeg-signals':
+            createEEGSignalsChart();
+            break;
+        case 'frequency-bands':
+            createFrequencyBandsChart();
+            break;
+        case 'spectral-analysis':
+            createSpectralAnalysisChart();
+            break;
+        case 'time-frequency':
+            createTimeFrequencyChart();
+            break;
+    }
+    
+    updateStatsChart();
+    updateFrequencyChart();
+    updateAmplitudeChart();
+    updateSpectralChart();
+    updateAnalysisInfo();
+}
+
+function createEEGSignalsChart() {
+    const data = [];
+    
+    if (currentData.eeg_signals) {
+        if (document.getElementById('signalType').value !== 'normal') {
+            data.push({
+                x: currentData.eeg_signals.time_points,
+                y: currentData.eeg_signals.seizure_signal,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Seizure Signal',
+                line: { color: '#A23B72', width: 2 }
+            });
+        }
+        
+        if (document.getElementById('signalType').value !== 'seizure') {
+            data.push({
+                x: currentData.eeg_signals.time_points,
+                y: currentData.eeg_signals.normal_signal,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Normal Signal',
+                line: { color: '#2E86AB', width: 2 }
+            });
+        }
+    }
+    
+    const layout = {
+        title: 'EEG Signal Comparison',
+        xaxis: { title: 'Time Points', gridcolor: '#444' },
+        yaxis: { title: 'Amplitude (μV)', gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white' },
+        legend: { bgcolor: 'rgba(0,0,0,0.5)' }
+    };
+    
+    Plotly.newPlot('mainChart', data, layout, { responsive: true, displayModeBar: false });
+    document.getElementById('mainChartTitle').innerHTML = '<i class="fas fa-wave-square me-2"></i>EEG Signal Patterns';
+}
+
+function createFrequencyBandsChart() {
+    const data = [];
+    
+    if (currentData.frequency_bands) {
+        data.push({
+            x: currentData.frequency_bands.bands,
+            y: currentData.frequency_bands.seizure_powers,
+            type: 'bar',
+            name: 'Seizure',
+            marker: { color: '#A23B72', opacity: 0.8 }
+        });
+        
+        data.push({
+            x: currentData.frequency_bands.bands,
+            y: currentData.frequency_bands.normal_powers,
+            type: 'bar',
+            name: 'Normal',
+            marker: { color: '#2E86AB', opacity: 0.8 }
+        });
+    }
+    
+    const layout = {
+        title: 'Frequency Band Power Distribution',
+        xaxis: { title: 'Frequency Bands', gridcolor: '#444' },
+        yaxis: { title: 'Normalized Power', gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white' },
+        barmode: 'group',
+        legend: { bgcolor: 'rgba(0,0,0,0.5)' }
+    };
+    
+    Plotly.newPlot('mainChart', data, layout, { responsive: true, displayModeBar: false });
+    document.getElementById('mainChartTitle').innerHTML = '<i class="fas fa-signal me-2"></i>Frequency Band Analysis';
+}
+
+function createSpectralAnalysisChart() {
+    // Generate sample spectral data
+    const frequencies = Array.from({length: 50}, (_, i) => i + 1);
+    const seizurePower = frequencies.map(f => Math.exp(-f/15) + 0.1 * Math.random());
+    const normalPower = frequencies.map(f => Math.exp(-f/25) + 0.05 * Math.random());
+    
+    const data = [
+        {
+            x: frequencies,
+            y: seizurePower,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Seizure Power',
+            line: { color: '#A23B72', width: 3 }
+        },
+        {
+            x: frequencies,
+            y: normalPower,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Normal Power',
+            line: { color: '#2E86AB', width: 3 }
+        }
+    ];
+    
+    const layout = {
+        title: 'Power Spectral Density',
+        xaxis: { title: 'Frequency (Hz)', gridcolor: '#444' },
+        yaxis: { title: 'Power (μV²/Hz)', gridcolor: '#444', type: 'log' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white' },
+        legend: { bgcolor: 'rgba(0,0,0,0.5)' }
+    };
+    
+    Plotly.newPlot('mainChart', data, layout, { responsive: true, displayModeBar: false });
+    document.getElementById('mainChartTitle').innerHTML = '<i class="fas fa-chart-area me-2"></i>Spectral Power Analysis';
+}
+
+function createTimeFrequencyChart() {
+    // Generate sample time-frequency data
+    const time = Array.from({length: 50}, (_, i) => i * 0.02);
+    const frequency = Array.from({length: 30}, (_, i) => i + 1);
+    
+    const z = frequency.map(f => 
+        time.map(t => Math.sin(2 * Math.PI * f * t) * Math.exp(-t) + 0.1 * Math.random())
+    );
+    
+    const data = [{
+        x: time,
+        y: frequency,
+        z: z,
+        type: 'heatmap',
+        colorscale: 'Viridis',
+        colorbar: { title: 'Power' }
+    }];
+    
+    const layout = {
+        title: 'Time-Frequency Spectrogram',
+        xaxis: { title: 'Time (s)', gridcolor: '#444' },
+        yaxis: { title: 'Frequency (Hz)', gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white' }
+    };
+    
+    Plotly.newPlot('mainChart', data, layout, { responsive: true, displayModeBar: false });
+    document.getElementById('mainChartTitle').innerHTML = '<i class="fas fa-th me-2"></i>Time-Frequency Analysis';
+}
+
+function updateStatsChart() {
+    const data = [{
+        values: [60, 40],
+        labels: ['Normal', 'Seizure'],
+        type: 'pie',
+        hole: 0.4,
+        marker: { colors: ['#2E86AB', '#A23B72'] },
+        textfont: { color: 'white' }
+    }];
+    
+    const layout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: 'white', size: 12 },
+        showlegend: false,
+        margin: { t: 40, b: 40, l: 40, r: 40 }
+    };
+    
+    Plotly.newPlot('statsChart', data, layout, { responsive: true, displayModeBar: false });
+}
+
+function updateFrequencyChart() {
+    if (!currentData.frequency_bands) return;
+    
+    const data = [
+        {
+            x: currentData.frequency_bands.bands,
+            y: currentData.frequency_bands.seizure_powers,
+            type: 'bar',
+            name: 'Seizure',
+            marker: { color: '#A23B72', opacity: 0.8 }
+        },
+        {
+            x: currentData.frequency_bands.bands,
+            y: currentData.frequency_bands.normal_powers,
+            type: 'bar',
+            name: 'Normal',
+            marker: { color: '#2E86AB', opacity: 0.8 }
+        }
+    ];
+    
+    const layout = {
+        xaxis: { gridcolor: '#444' },
+        yaxis: { gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white', size: 10 },
+        barmode: 'group',
+        legend: { bgcolor: 'rgba(0,0,0,0.5)', font: { size: 10 } },
+        margin: { t: 40, b: 60, l: 60, r: 40 }
+    };
+    
+    Plotly.newPlot('frequencyChart', data, layout, { responsive: true, displayModeBar: false });
+}
+
+function updateAmplitudeChart() {
+    // Generate amplitude distribution
+    const seizureAmplitudes = Array.from({length: 100}, () => Math.random() * 200 - 100);
+    const normalAmplitudes = Array.from({length: 100}, () => Math.random() * 100 - 50);
+    
+    const data = [
+        {
+            x: seizureAmplitudes,
+            type: 'histogram',
+            name: 'Seizure',
+            marker: { color: '#A23B72', opacity: 0.7 },
+            nbinsx: 20
+        },
+        {
+            x: normalAmplitudes,
+            type: 'histogram',
+            name: 'Normal',
+            marker: { color: '#2E86AB', opacity: 0.7 },
+            nbinsx: 20
+        }
+    ];
+    
+    const layout = {
+        xaxis: { title: 'Amplitude (μV)', gridcolor: '#444' },
+        yaxis: { title: 'Frequency', gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white', size: 10 },
+        barmode: 'overlay',
+        legend: { bgcolor: 'rgba(0,0,0,0.5)', font: { size: 10 } },
+        margin: { t: 40, b: 60, l: 60, r: 40 }
+    };
+    
+    Plotly.newPlot('amplitudeChart', data, layout, { responsive: true, displayModeBar: false });
+}
+
+function updateSpectralChart() {
+    // Generate spectral power data
+    const frequencies = Array.from({length: 30}, (_, i) => i + 1);
+    const power = frequencies.map(f => Math.exp(-f/20) + 0.1 * Math.random());
+    
+    const data = [{
+        x: frequencies,
+        y: power,
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: 'Power Density',
+        line: { color: '#F18F01', width: 3 },
+        marker: { color: '#F18F01', size: 6 }
+    }];
+    
+    const layout = {
+        xaxis: { title: 'Frequency (Hz)', gridcolor: '#444' },
+        yaxis: { title: 'Power', gridcolor: '#444' },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(26,28,36,0.8)',
+        font: { color: 'white', size: 10 },
+        showlegend: false,
+        margin: { t: 40, b: 60, l: 60, r: 40 }
+    };
+    
+    Plotly.newPlot('spectralChart', data, layout, { responsive: true, displayModeBar: false });
+}
+
+function updateAnalysisInfo() {
+    const signalType = document.getElementById('signalType').value;
+    let classification = 'Mixed';
+    
+    if (signalType === 'seizure') classification = 'Seizure Detected';
+    else if (signalType === 'normal') classification = 'Normal Pattern';
+    
+    document.getElementById('classification').textContent = classification;
+}
+
+function showLoading() {
+    document.getElementById('loadingOverlay').classList.remove('d-none');
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.add('d-none');
+}
+</script>
+{% endblock %}

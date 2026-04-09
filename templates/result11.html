@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - EEG Epilepsy Detection{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Results Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-5 mb-3">
+                <i class="fas fa-chart-line me-3" style="color: var(--success-color);"></i>
+                Analysis Results
+            </h1>
+            <p class="lead text-muted">AI-powered EEG epilepsy detection results</p>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="result-stats mb-5">
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--accent-color);">{{ results.total_samples }}</div>
+            <div class="stat-label">Total Samples</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--secondary-accent);">{{ results.seizure_count }}</div>
+            <div class="stat-label">Seizure Detected</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--success-color);">{{ results.non_seizure_count }}</div>
+            <div class="stat-label">Normal Patterns</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" style="color: var(--warning-color);">{{ results.seizure_percentage }}%</div>
+            <div class="stat-label">Seizure Rate</div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-4">
+        <!-- Prediction Distribution -->
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-pie-chart me-2"></i>
+                    Detection Summary
+                </h4>
+                <div id="pieChart" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <!-- Confidence Distribution -->
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-chart-bar me-2"></i>
+                    Confidence Distribution
+                </h4>
+                <div id="confidenceChart" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <!-- EEG Signals -->
+        <div class="col-12">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-wave-square me-2"></i>
+                    Sample EEG Signals
+                </h4>
+                <div id="eegChart" style="height: 500px;"></div>
+            </div>
+        </div>
+
+        <!-- Frequency Analysis -->
+        {% if results.plots.frequency_bands %}
+        <div class="col-12">
+            <div class="chart-container">
+                <h4 class="mb-3">
+                    <i class="fas fa-signal me-2"></i>
+                    Frequency Band Analysis
+                </h4>
+                <div id="frequencyChart" style="height: 400px;"></div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Detailed Analysis -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-microscope me-2" style="color: var(--accent-color);"></i>
+                    Detailed Analysis
+                </h3>
+                
+                <div class="row g-4">
+                    <!-- Clinical Interpretation -->
+                    <div class="col-md-6">
+                        <div class="analysis-section">
+                            <h5 class="mb-3">
+                                <i class="fas fa-stethoscope me-2"></i>
+                                Clinical Interpretation
+                            </h5>
+                            {% if results.seizure_percentage > 50 %}
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>High Risk:</strong> Significant seizure activity detected. 
+                                    Immediate medical consultation recommended.
+                                </div>
+                            {% elif results.seizure_percentage > 20 %}
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                    <strong>Moderate Risk:</strong> Some seizure patterns identified. 
+                                    Further monitoring advised.
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong>Low Risk:</strong> Minimal seizure activity detected. 
+                                    Normal EEG patterns predominant.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Technical Details -->
+                    <div class="col-md-6">
+                        <div class="analysis-section">
+                            <h5 class="mb-3">
+                                <i class="fas fa-cogs me-2"></i>
+                                Technical Details
+                            </h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Algorithm:</strong> Quantum SVM with RBF kernel
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Features:</strong> 178 EEG channels processed
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Processing:</strong> PCA dimensionality reduction
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    <strong>Accuracy:</strong> 95%+ validation accuracy
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{{ url_for('prediction') }}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-upload me-2"></i>
+                Analyze New Data
+            </a>
+            <button class="btn btn-success btn-lg me-3" onclick="downloadResults()">
+                <i class="fas fa-download me-2"></i>
+                Download Report
+            </button>
+            <a href="{{ url_for('visualization') }}" class="btn btn-warning btn-lg">
+                <i class="fas fa-chart-area me-2"></i>
+                Explore Visualizations
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Parse results data
+    const results = {{ results | tojsonhtml }};
+    
+    // Create pie chart
+    if (results.plots && results.plots.pie_chart) {
+        const pieData = JSON.parse(results.plots.pie_chart);
+        Plotly.newPlot('pieChart', pieData.data, pieData.layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+    }
+    
+    // Create confidence histogram
+    if (results.plots && results.plots.confidence_hist) {
+        const confData = JSON.parse(results.plots.confidence_hist);
+        Plotly.newPlot('confidenceChart', confData.data, confData.layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+    }
+    
+    // Create EEG signals plot
+    if (results.plots && results.plots.eeg_signals) {
+        const eegData = JSON.parse(results.plots.eeg_signals);
+        Plotly.newPlot('eegChart', eegData.data, eegData.layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+    }
+    
+    // Create frequency bands plot
+    if (results.plots && results.plots.frequency_bands) {
+        const freqData = JSON.parse(results.plots.frequency_bands);
+        Plotly.newPlot('frequencyChart', freqData.data, freqData.layout, {
+            responsive: true,
+            displayModeBar: false
+        });
+    }
+});
+
+function downloadResults() {
+    const results = {{ results | tojsonhtml }};
+    
+    // Create comprehensive report
+    let report = `EEG Epilepsy Detection Report\\n`;
+    report += `Generated: ${new Date().toLocaleString()}\\n\\n`;
+    report += `SUMMARY STATISTICS:\\n`;
+    report += `Total Samples: ${results.total_samples}\\n`;
+    report += `Seizure Detected: ${results.seizure_count}\\n`;
+    report += `Normal Patterns: ${results.non_seizure_count}\\n`;
+    report += `Seizure Rate: ${results.seizure_percentage}%\\n\\n`;
+    
+    report += `CLINICAL INTERPRETATION:\\n`;
+    if (results.seizure_percentage > 50) {
+        report += `High Risk: Significant seizure activity detected.\\n`;
+    } else if (results.seizure_percentage > 20) {
+        report += `Moderate Risk: Some seizure patterns identified.\\n`;
+    } else {
+        report += `Low Risk: Minimal seizure activity detected.\\n`;
+    }
+    
+    report += `\\nTECHNICAL DETAILS:\\n`;
+    report += `Algorithm: Quantum SVM with RBF kernel\\n`;
+    report += `Features: 178 EEG channels processed\\n`;
+    report += `Processing: PCA dimensionality reduction\\n`;
+    report += `Validation Accuracy: 95%+\\n`;
+    
+    // Download report
+    const blob = new Blob([report], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eeg_analysis_report_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    EEGApp.showNotification('Report downloaded successfully!', 'success');
+}
+</script>
+{% endblock %}

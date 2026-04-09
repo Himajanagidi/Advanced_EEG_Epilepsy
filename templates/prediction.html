@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}EEG Prediction - Upload Your Data{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="custom-card p-5">
+                <div class="text-center mb-4">
+                    <h1 class="display-5 mb-3">
+                        <i class="fas fa-upload me-3" style="color: var(--accent-color);"></i>
+                        Upload EEG Data
+                    </h1>
+                    <p class="lead text-muted">
+                        Upload your CSV file containing EEG signal data for AI-powered epilepsy detection
+                    </p>
+                </div>
+
+                <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data" id="uploadForm">
+                    <div class="file-upload-area mb-4" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 4rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h4>Drag & Drop Your CSV File</h4>
+                        <p class="text-muted mb-3">or click to browse files</p>
+                        <input type="file" id="file" name="file" accept=".csv" required class="d-none">
+                        <div class="upload-requirements">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Supported format: CSV files only (Max: 16MB)
+                            </small>
+                        </div>
+                    </div>
+
+                    <div id="file-info"></div>
+
+                    <div class="file-requirements mb-4">
+                        <div class="custom-card p-3" style="background: rgba(46, 134, 171, 0.1);">
+                            <h6><i class="fas fa-list-check me-2"></i>File Requirements:</h6>
+                            <ul class="mb-0 text-muted">
+                                <li>CSV format with EEG signal data</li>
+                                <li>178 features per sample (X1 to X178)</li>
+                                <li>Optional 'y' column for validation</li>
+                                <li>Maximum file size: 16MB</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" disabled>
+                            <i class="fas fa-brain me-2"></i>
+                            Analyze EEG Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sample Data Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-download me-2" style="color: var(--warning-color);"></i>
+                    Sample Data
+                </h3>
+                <p class="text-muted mb-3">
+                    Don't have EEG data? Download our sample dataset to test the system:
+                </p>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="sample-card p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h6><i class="fas fa-file-csv me-2"></i>Sample Dataset 1</h6>
+                            <p class="small text-muted mb-2">Mixed seizure and non-seizure samples</p>
+                            <button class="btn btn-sm btn-warning" onclick="downloadSampleData('sample1')">
+                                <i class="fas fa-download me-1"></i>Download
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="sample-card p-3" style="background: var(--hover-bg); border-radius: 10px;">
+                            <h6><i class="fas fa-file-csv me-2"></i>Sample Dataset 2</h6>
+                            <p class="small text-muted mb-2">Normal EEG patterns only</p>
+                            <button class="btn btn-sm btn-warning" onclick="downloadSampleData('sample2')">
+                                <i class="fas fa-download me-1"></i>Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Process Info -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="custom-card p-4">
+                <h3 class="mb-4">
+                    <i class="fas fa-cogs me-2" style="color: var(--success-color);"></i>
+                    Analysis Process
+                </h3>
+                
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="process-item text-center">
+                            <div class="process-icon mb-3">
+                                <i class="fas fa-file-import" style="font-size: 2rem; color: var(--accent-color);"></i>
+                            </div>
+                            <h6>Data Import</h6>
+                            <p class="small text-muted">CSV file parsing and validation</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="process-item text-center">
+                            <div class="process-icon mb-3">
+                                <i class="fas fa-wave-square" style="font-size: 2rem; color: var(--secondary-accent);"></i>
+                            </div>
+                            <h6>Signal Processing</h6>
+                            <p class="small text-muted">Feature extraction and normalization</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="process-item text-center">
+                            <div class="process-icon mb-3">
+                                <i class="fas fa-atom" style="font-size: 2rem; color: var(--warning-color);"></i>
+                            </div>
+                            <h6>AI Analysis</h6>
+                            <p class="small text-muted">Quantum-enhanced classification</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="process-item text-center">
+                            <div class="process-icon mb-3">
+                                <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--success-color);"></i>
+                            </div>
+                            <h6>Results</h6>
+                            <p class="small text-muted">Interactive visualizations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: var(--card-bg); border: 1px solid var(--border-color);">
+            <div class="modal-body text-center p-5">
+                <div class="loading mb-3"></div>
+                <h5>Processing EEG Data...</h5>
+                <p class="text-muted mb-0">Please wait while our AI analyzes your data</p>
+                <div class="progress mt-3" style="height: 6px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         style="width: 100%; background: var(--accent-color);"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file');
+    const submitBtn = document.getElementById('submitBtn');
+    const uploadForm = document.getElementById('uploadForm');
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+
+    // Enable submit button when file is selected
+    fileInput.addEventListener('change', function() {
+        submitBtn.disabled = !fileInput.files.length;
+    });
+
+    // Show loading modal on form submit
+    uploadForm.addEventListener('submit', function() {
+        if (fileInput.files.length > 0) {
+            loadingModal.show();
+        }
+    });
+});
+
+// In templates/prediction.html, update the downloadSampleData function
+function downloadSampleData(sampleType) {
+    // Generate sample CSV data with proper format
+    let csvContent = "";
+    
+    // Add column headers - include Unnamed column and feature columns
+    csvContent += "Unnamed,";
+    for (let i = 1; i <= 178; i++) {
+        csvContent += `X${i},`;
+    }
+    csvContent += "y\n";
+    
+    // Generate sample rows (at least 10 rows to avoid empty data)
+    const numRows = sampleType === 'sample1' ? 20 : 15; // More samples
+    
+    for (let row = 0; row < numRows; row++) {
+        csvContent += `Sample${row + 1}.V1.${row + 100},`; // Sample identifier
+        
+        // Generate realistic EEG-like data
+        for (let col = 1; col <= 178; col++) {
+            let value;
+            if (sampleType === 'sample1') {
+                // Mixed seizure and normal patterns
+                value = Math.round((Math.random() - 0.5) * 400 + Math.sin(col * 0.1) * 50);
+            } else {
+                // Normal patterns only
+                value = Math.round((Math.random() - 0.5) * 200 + Math.sin(col * 0.05) * 25);
+            }
+            csvContent += `${value},`;
+        }
+        
+        // Add target (mix of classes for sample1, mostly normal for sample2)
+        let target;
+        if (sampleType === 'sample1') {
+            target = Math.floor(Math.random() * 5) + 1; // Classes 1-5
+        } else {
+            target = Math.random() < 0.8 ? 5 : 4; // Mostly class 5 (normal)
+        }
+        csvContent += `${target}\n`;
+    }
+    
+    // Download file
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${sampleType}_eeg_data.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    EEGApp.showNotification(`${sampleType.toUpperCase()} downloaded successfully!`, 'success');
+}
+
+</script>
+{% endblock %}
